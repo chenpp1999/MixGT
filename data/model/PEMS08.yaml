@@ -1,0 +1,75 @@
+---
+base_dir: data/model
+log_level: INFO
+data:
+  batch_size: 64
+  data: ./data/processed/PEMS08/
+  sensors_distance: ./data/PEMS08/PEMS08.csv
+  column_wise: False
+  normalizer: std
+
+pre_model:
+  pre_dir: ./preModels/epo146.tar
+  cl_decay_steps: 2000
+  filter_type: dual_random_walk
+  horizon: 12
+  input_dim: 1
+  max_diffusion_step: 1
+  num_nodes: 170
+  num_rnn_layers: 1
+  output_dim: 1
+  rnn_units: 64
+  seq_len: 12
+  pre_k: 4
+  pre_v: 1
+  use_curriculum_learning: true
+  construct_type: connectivity
+  l2lambda: 0
+  patch_size: 1
+  in_channel: 1
+  embed_dim: 64
+  num_heads: 4
+  mlp_ratio: 4
+  dropout: 0.1
+  num_token: 170
+  mask_ratio: 0.6
+  encoder_depth: 4
+  decoder_depth: 1
+  mode: forecasting
+
+model:
+  construct_type: connectivity
+  horizon: 12
+  input_dim: 1
+  output_dim: 1
+  num_nodes: 170
+  seq_len: 12
+  pre_len: 12
+  N: 3
+  dim: 32
+  outputs_dim: 32
+  device: cuda
+  _max_diffusion_step: 2
+  spare_dim: 1
+  fusio_dim: 3
+  drop: 0.1
+  norm_layer: nn.LayerNorm
+  head_nums: 4
+  mlp_radio: 2
+  drop_radio: 0.1
+
+train:
+  base_lr: 0.01
+  dropout: 0
+  epoch: 321
+  epochs: 350
+  epsilon: 1.0e-3
+  global_step: 0
+  lr_decay_ratio: 0.2
+  max_grad_norm: 5
+  max_to_keep: 100
+  min_learning_rate: 2.0e-06
+  optimizer: adam
+  patience: 50
+  steps: [20, 40, 70, 90, 110, 130]
+  test_every_n_epochs: 10
